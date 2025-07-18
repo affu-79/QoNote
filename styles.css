@@ -1,0 +1,850 @@
+/* ========== CSS Variables ========== */
+:root {
+  --true-blue: #0466c8;
+  --sapphire: #0353a4;
+  --yale-blue: #023e7d;
+  --oxford-blue: #002855;
+  --oxford-blue-2: #001845;
+  --oxford-blue-3: #001233;
+  --delft-blue: #33415c;
+  --paynes-gray: #5c677d;
+  --slate-gray: #7d8597;
+  --cool-gray: #979dac;
+
+  --font-heading: 'Poppins', sans-serif;
+  --font-body: 'Inter', sans-serif;
+}
+
+/* ========== Global Reset ========== */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: var(--font-body);
+  background-color: #f8f9fa;
+  color: var(--slate-gray);
+  line-height: 1.6;
+  margin: 0;
+  padding: 0;
+}
+
+
+/* ========== Header ========== */
+header {
+  text-align: center;
+  margin-bottom: 2rem;
+  color: white;
+}
+header {
+  margin: 0;
+  padding: 1rem 2rem;
+  width: 100%;
+}
+
+header h1 {
+  font-family: var(--font-heading);
+  font-size: 2.5rem;
+  color: var(--true-blue);
+}
+
+header p {
+  font-size: 1.2rem;
+  color: var(--cool-gray);
+}
+
+/* ========== Note Cards ========== */
+.note-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.5rem;
+  padding: 0 1rem;
+}
+
+.note-card {
+  background-color: var(--delft-blue);
+  padding: 1.5rem;
+  border-radius: 12px;
+  box-shadow: 0 0 8px rgba(0, 0, 0, 0.3);
+  text-align: center;
+  transition: transform 0.3s ease;
+}
+
+.note-card:hover {
+  transform: translateY(-5px);
+}
+
+.note-card h2 {
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+  color: white;
+}
+
+.note-card button {
+  margin: 0.5rem;
+  padding: 0.6rem 1.2rem;
+  border: none;
+  border-radius: 6px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.preview-btn {
+  background-color: var(--sapphire);
+  color: white;
+}
+
+.preview-btn:hover {
+  background-color: var(--true-blue);
+}
+
+.buy-btn {
+  background-color: var(--true-blue);
+  color: white;
+}
+
+.buy-btn:hover {
+  background-color: var(--sapphire);
+}
+
+/* ========== Modal ========== */
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.8);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.modal.hidden {
+  display: none;
+}
+
+.modal-content {
+  position: relative;
+  background-color: var(--oxford-blue-2);
+  padding: 2rem;
+  border-radius: 10px;
+  width: 90%;
+  max-width: 800px;
+  text-align: center;
+}
+
+canvas {
+  max-width: 100%;
+  margin-bottom: 1rem;
+}
+
+/* ========== Modal Controls ========== */
+.preview-controls {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+  margin-top: 1rem;
+  color: var(--cool-gray);
+}
+
+#pageInfo {
+  font-weight: bold;
+}
+
+/* ========== Lock Overlay ========== */
+#lockOverlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0,0,0,0.7);
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 1.4rem;
+  font-weight: bold;
+  border-radius: 10px;
+  z-index: 10;
+}
+
+#lockOverlay.hidden {
+  display: none;
+}
+
+/* ========== Close Button ========== */
+.close {
+  position: absolute;
+  top: 10px;
+  right: 20px;
+  font-size: 2rem;
+  color: white;
+  cursor: pointer;
+}
+
+------------------------------------------------------------------------
+
+/* ========== Bootstrap-like Custom Theme ========== */
+
+/* Primary Button - true blue */
+.btn-primary {
+  background-color: var(--true-blue) !important;
+  border-color: var(--true-blue) !important;
+  color: #fff !important;
+}
+.btn-primary:hover {
+  background-color: var(--sapphire) !important;
+  border-color: var(--sapphire) !important;
+}
+
+/* Secondary Button - sapphire */
+.btn-secondary {
+  background-color: var(--sapphire) !important;
+  border-color: var(--sapphire) !important;
+  color: #fff !important;
+}
+.btn-secondary:hover {
+  background-color: var(--yale-blue) !important;
+  border-color: var(--yale-blue) !important;
+}
+
+/* Success - paynes gray */
+.btn-success {
+  background-color: var(--paynes-gray) !important;
+  border-color: var(--paynes-gray) !important;
+  color: #fff !important;
+}
+.btn-success:hover {
+  background-color: var(--slate-gray) !important;
+  border-color: var(--slate-gray) !important;
+}
+
+/* Background and Text Utilities */
+.bg-primary-custom {
+  background-color: var(--true-blue) !important;
+}
+.bg-secondary-custom {
+  background-color: var(--sapphire) !important;
+}
+.bg-muted-custom {
+  background-color: var(--delft-blue) !important;
+}
+.text-primary-custom {
+  color: var(--true-blue) !important;
+}
+.text-muted-custom {
+  color: var(--cool-gray) !important;
+}
+
+/* Card using your colors */
+.card-custom {
+  background-color: var(--delft-blue);
+  color: var(--slate-gray);
+  border: 1px solid var(--oxford-blue-3);
+  border-radius: 0.75rem;
+  box-shadow: 0 0 6px rgba(0, 0, 0, 0.2);
+}
+
+/* Navbar */
+.navbar-custom {
+  background-color: var(--yale-blue);
+}
+.navbar-custom .navbar-brand,
+.navbar-custom .nav-link {
+  color: #fff;
+}
+.navbar-custom .nav-link:hover {
+  color: var(--cool-gray);
+}
+
+
+/* ==========================================================================
+    Responsive Typography & Layout
+   ========================================================================== */
+
+@media (max-width: 768px) {
+  header h1 {
+    font-size: 2rem;
+  }
+
+  .note-card h2 {
+    font-size: 1.2rem;
+  }
+
+  .note-card button {
+    padding: 0.5rem 1rem;
+    font-size: 0.9rem;
+  }
+
+  .modal-content {
+    padding: 1.2rem;
+  }
+}
+
+/* ==========================================================================
+    Button Hover Animation & Interaction
+   ========================================================================== */
+
+button {
+  transition: all 0.2s ease-in-out;
+}
+
+button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* ==========================================================================
+    Smooth Scrolling for Navigation
+   ========================================================================== */
+
+html {
+  scroll-behavior: smooth;
+}
+
+/* ==========================================================================
+    Footer Styling (Optional Section)
+   ========================================================================== */
+
+footer {
+  background-color: var(--oxford-blue);
+  color: var(--cool-gray);
+  padding: 1rem;
+  text-align: center;
+  font-size: 0.9rem;
+}
+
+.animated-nav {
+  position: relative;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.animated-nav::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -4px;
+  width: 0%;
+  height: 2px;
+  background-color: var(--true-blue);
+  transition: width 0.3s ease;
+}
+
+.animated-nav:hover::after {
+  width: 100%;
+}
+
+.animated-nav:hover {
+  color: var(--cool-gray) !important;
+}
+
+/* Custom nav links */
+.custom-nav {
+  font-size: 1.09rem;
+  color: white !important;
+  position: relative;
+  transition: all 0.3s ease;
+  padding: 10px 80px;
+  border-radius: 6px;
+}
+
+.custom-nav:hover {
+  color: var(--slate-gray) !important;
+  background-color: #f8f9fa; /* Same as body */
+  text-decoration: none;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  padding: 10px 40px;
+}
+
+/* Optional: active/clicked state mimic */
+.custom-nav:active {
+  background-color: #f8f9fa;
+  color: var(--slate-gray) !important;
+}
+
+
+/* ========== User Details Section ========== */
+#user-details {
+  background-color: #bcd4e6;
+  width: 100vw;
+}
+
+.custom-form-box {
+  border: 2px dotted #cdd2da;
+  border-radius: 16px;
+  padding: 2rem;
+  background-color: #bcd4e6;
+}
+
+/* Smooth form inputs */
+.smooth-input {
+  transition: all 0.3s ease;
+  border: 1px solid var(--paynes-gray);
+  background-color: var(--oxford-blue-2);
+  color: var(--cool-gray);
+  border-radius: 6px;
+  padding: 0.6rem 1rem;
+}
+
+.smooth-input:focus {
+  outline: none;
+  border-color: var(--true-blue);
+  background-color: var(--oxford-blue-3);
+  color: white;
+  box-shadow: 0 0 5px rgba(4, 102, 200, 0.4);
+}
+
+/* Button animation */
+#user-details button {
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+#user-details button:hover {
+  background-color: var(--sapphire);
+  transform: translateY(-2px);
+}
+/* Section image styling */
+.user-section-img {
+  border: 2px dotted black;         
+  border-radius: 12px;             
+  object-fit: contain;                  
+  height: 400px;                     
+  width: auto;                        
+  max-width: auto;
+  
+}
+
+
+/* ================================================================ */
+.note-flex-block {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 3rem;
+  padding: 2.5rem 2rem;
+  border-radius: 35px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+  color: #ffffff;
+  gap: 2rem;
+  transition: all 0.3s ease;
+}
+body {
+  overflow-x: hidden;
+}
+
+
+.second-note-block {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  gap: 2rem;
+  padding: 2rem 0 2rem 2rem; /* remove right padding */
+  border-radius: 35px;
+  overflow: hidden;
+  box-sizing: border-box;
+}
+
+/* Text fully left */
+.second-note-block .note-info {
+  flex: 1;
+  color: #fff;
+  margin-right: auto;
+}
+
+/* Image block fully right */
+.second-note-block .note-image-wrapper {
+  width: 40%;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.second-note-block .note-image {
+  width: 100%;
+  height: auto;
+  max-height: 280px;
+  object-fit: contain;
+  border-radius: 15%;
+}
+
+
+
+
+/* Constrain image height to match the note section visually */
+.note-image {
+  width: 100%;
+  height: 100%;                      /* Make it match container height */
+  max-height: 300px;                /* Cap it to avoid tall stretch */
+  object-fit: contain;              /* Or use 'cover' for full fill */
+  border-radius: 15%;
+}
+
+/* Make sure image wrapper doesn't grow too much */
+.note-image-wrapper {
+  max-height: 300px;
+  height: 100%;
+  overflow: hidden;                 /* Prevents any spill */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+
+.note-image:hover {
+  transform: scale(1.03);
+}
+
+.note-info {
+  flex: 1;
+}
+
+.note-price {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 1rem;
+}
+
+.more-notes-link {
+  font-size: 1.3rem;
+  color: var(--true-blue);
+  font-weight: 600;
+  text-decoration: none;
+  transition: all 0.3s ease;
+}
+
+.more-notes-link:hover {
+  color: var(--sapphire);
+  transform: scale(1.05);
+}
+
+@media (max-width: 768px) {
+  .note-flex-block,
+  .note-flex-block.reversed {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .note-image {
+    width: 90%;
+    max-height: 250px;
+    margin-bottom: 1rem;
+  }
+
+  .note-price {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+}
+
+
+
+
+/* Bigger card dimensions and visuals */
+.custom-card {
+  background: white;
+  border-radius: 20px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+  width: 470px;                    /* Increased width */
+  min-height: 500px;               /* Taller card */
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 1.5rem;
+  transition: transform 0.4s ease;
+}
+
+.custom-img {
+  width: 100%;
+  height: 250px;
+  object-fit: contain;       /* 🔑 This keeps entire image visible */
+  border-radius: 12px;
+  background: #f8f9fa;       /* Light background to fill empty space */
+  padding: 10px;    
+  margin-bottom: 30px;         /* Optional: adds space inside image box */
+}
+
+
+/* Bigger content area */
+.custom-content h5 {
+  font-size: 1.4rem;
+  margin-bottom: 0.5rem;
+}
+
+.custom-content p {
+  font-size: 1rem;
+  color: #555;
+  line-height: 1.4;
+}
+
+.custom-content .btn {
+  font-size: 1rem;
+  padding: 10px 20px;
+}
+
+/* Card animation remains same */
+.customSwiper .swiper-slide {
+  width: 380px;                    /* match card width */
+  opacity: 0.5;
+  transform: scale(0.85);
+  transition: 0.3s ease;
+}
+
+.customSwiper .swiper-slide-active {
+  opacity: 1;
+  transform: scale(1);
+  z-index: 2;
+}
+
+.customSwiper .swiper-slide-prev,
+.customSwiper .swiper-slide-next {
+  opacity: 0.7;
+  transform: scale(0.92);
+  z-index: 1;
+}
+
+.slide-divider {
+  width: 0;
+  height: 4px;
+  background-color: #0466c8;
+  animation: expandLine 1.5s ease-out forwards;
+  border-radius: 3px;
+}
+
+@keyframes expandLine {
+  to {
+    width: 100%;
+  }
+}
+
+
+.about-highlight {
+  border-left: 5px solid #0466c8; /* QoNote's true-blue */
+  background-color: #f8f9fa;      /* soft background highlight (optional) */
+  border-radius: 4px;
+  padding-top: 0.8rem;
+  padding-bottom: 0.8rem;
+}
+
+
+/* 🌟 Final Modern Table with Border, Radius, Hover Animation */
+.table-responsive {
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05); /* soft modern border shadow */
+}
+
+/* Base Table Styling */
+.modern-table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  overflow: hidden;
+}
+
+/* Table Header */
+.modern-table thead {
+  background: linear-gradient(90deg, #0466c8, #0353a4);
+  color: #ffffff;
+}
+
+.modern-table thead th {
+  padding: 1rem;
+  font-size: 1.1rem;
+  text-transform: uppercase;
+  border: none;
+}
+
+/* Table Body Cells */
+.modern-table td {
+  background-color: #ffffff;
+  padding: 1.2rem;
+  font-size: 1.05rem;
+  border-bottom: 1px solid #e1eaf1;
+  transition: all 0.3s ease;
+}
+
+/* Last row cleanup */
+.modern-table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+/* Hover Animation */
+.modern-table tbody tr:hover td {
+  background-color: #eaf4ff;
+  transform: scale(1.01);
+  box-shadow: 0 4px 12px rgba(4, 102, 200, 0.1);
+  z-index: 1;
+  position: relative;
+  transition: all 0.3s ease;
+}
+
+/* Smooth Scrollbar (optional) */
+.table-responsive::-webkit-scrollbar {
+  height: 6px;
+}
+.table-responsive::-webkit-scrollbar-thumb {
+  background-color: #0466c8;
+  border-radius: 3px;
+}
+/* Clean, modern blockquote footer style */
+.no-bg-footer {
+  border-left: 4px solid #0466c8;
+  padding-left: 12px;
+  color: #5c677d;
+  background-color: transparent !important; /* forcefully remove any inherited background */
+}
+
+
+.footer-section {
+  background-color: #001845;
+  font-family: 'Inter', sans-serif;
+}
+
+.footer-section h5 {
+  font-size: 1.25rem;
+  letter-spacing: 0.5px;
+}
+
+.footer-link {
+  color: #dee2e6;
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.footer-link:hover {
+  color: #ffffff;
+  transform: translateX(5px);
+}
+
+.footer-section ul li i {
+  transition: color 0.3s ease, transform 0.3s ease;
+}
+
+.footer-section ul li:hover i {
+  color: #0466c8;
+  transform: scale(1.2);
+}
+
+/* Social Icons */
+.social-icon {
+  font-size: 1.8rem;
+  color: #979dac;
+  transition: all 0.3s ease;
+}
+
+.social-icon:hover {
+  color: #00cfff;
+  transform: scale(1.25) rotate(5deg);
+}
+.footer-section {
+  background: linear-gradient(to right, #001845, #023e7d, #0d569e);
+  font-family: 'Inter', sans-serif;
+  color: #ffffff;
+  padding-top: 3rem;
+  padding-bottom: 3rem;
+}
+
+.animated-select-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.4rem;
+  min-width: 250px;
+}
+
+.animated-select {
+  padding: 0.6rem 1rem;
+  border: 2px solid var(--true-blue);
+  border-radius: 10px;
+  background-color: #fff;
+  font-size: 1rem;
+  color: #333;
+  transition: all 0.3s ease;
+  box-shadow: 0 0 8px rgba(4, 102, 200, 0.05);
+}
+
+.animated-select:hover {
+  border-color: var(--sapphire);
+  box-shadow: 0 4px 12px rgba(4, 102, 200, 0.15);
+}
+
+.animated-select:focus {
+  outline: none;
+  border-color: var(--sapphire);
+  box-shadow: 0 0 6px rgba(4, 102, 200, 0.4);
+  transform: scale(1.01);
+}
+.animated-select {
+  transition: box-shadow 0.3s ease;
+  box-shadow: 0 0 5px rgba(4, 102, 200, 0.2);
+}
+
+.animated-select:focus {
+  box-shadow: 0 0 10px rgba(4, 102, 200, 0.5);
+}
+
+
+.letter-spacing-wide {
+  letter-spacing: 12px;
+  font-family: 'Courier New', monospace;
+}
+
+.animated-select {
+  border-radius: 10px;
+  transition: all 0.3s ease-in-out;
+  border: 1px solid var(--paynes-gray);
+}
+.animated-select:focus {
+  border-color: var(--true-blue);
+  box-shadow: 0 0 0 0.2rem rgba(4, 102, 200, 0.3);
+}
+
+
+.pdf-access {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 12px;
+  margin-top: 10px;
+  transition: all 0.3s ease-in-out;
+}
+
+.view-link {
+  display: inline-flex;
+  align-items: center;
+  font-weight: 500;
+  font-size: 0.95rem;
+  text-decoration: none;
+  padding: 8px 14px;
+  border-radius: 8px;
+  background-color: var(--cool-gray);
+  color: #fff;
+  transition: background-color 0.3s ease;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+}
+
+.view-link:hover {
+  background-color: var(--paynes-gray);
+  transform: translateY(-1px);
+}
+
+.btn-success.download-pdf {
+  background-color: #20c997;
+  border-color: #20c997;
+  color: #fff;
+}
+
+.btn-success.download-pdf:hover {
+  background-color: #17a589;
+}
+

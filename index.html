@@ -1,0 +1,871 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+
+
+<!-- Animate.css -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
+    <!-- Google Fonts -->
+<link href="https://fonts.googleapis.com/css2?family=Inter&family=Poppins:wght@600&display=swap" rel="stylesheet" />
+ <!-- Custom Styles -->
+  <link rel="stylesheet" href="styles.css" />
+  <!-- Bootstrap CSS (required for collapse/hamburger) -->
+<link
+  href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+  rel="stylesheet"
+/>
+<!-- Bootstrap JS Bundle -->
+<script
+  src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"
+  defer
+></script>
+
+<!-- Font Awesome -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+
+<!-- Swiper JS -->
+<script src="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.js"></script>
+<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+</head>
+<body>
+
+<header class="navbar navbar-expand-lg navbar-custom px-4 py-3">
+  <div class="container-fluid">
+    <!-- Logo + Brand -->
+    <a class="navbar-brand d-flex align-items-center w-auto" href="#">
+      <!-- Logo: hidden on small screens -->
+      <img 
+        src="assets/logo (2).png" 
+        alt="QoNote Logo" 
+        class="d-none d-lg-block"
+        style="height: 90px; margin-right: 30px; margin-top: -20px; margin-bottom: -15px;" 
+      />
+      <!-- Brand: centered on small screens -->
+      <span 
+        class="text-white w-100 text-center text-lg-start" 
+        style="font-family: var(--font-heading); font-size: 2.2rem; margin-bottom: -25px;"
+      >
+        QoNote
+      </span>
+    </a>
+
+    <!-- Hamburger Toggle -->
+    <button
+      class="navbar-toggler"
+      type="button"
+      data-bs-toggle="collapse"
+      data-bs-target="#navbarNav"
+      aria-controls="navbarNav"
+      aria-expanded="false"
+      aria-label="Toggle navigation"
+      style="border: none; outline: none;"
+    >
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <!-- Nav Links -->
+    <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+      <ul class="navbar-nav d-flex align-items-center gap-4">
+        <li class="nav-item">
+          <a class="nav-link custom-nav" href="#note-details-section">Notes Description</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link custom-nav" href="#notes-carousel-custom">View Notes</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link custom-nav" href="#about-us">About Us</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link custom-nav" href="#footer">Contact</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</header>
+
+<!-- ========== User Details Section ========== -->
+<section id="user-details" class="py-5">
+
+  <div class="container-fluid px-4">
+    <div class="row align-items-center justify-content-between custom-form-box">
+      
+      <!-- Image (Right on large screens, top on small) -->
+      <div class="col-12 col-lg-6 order-1 order-lg-2 text-center mb-4 mb-lg-0">
+        <img
+          src="assets/details-img.png"
+          alt="User Info"
+          class="img-fluid rounded shadow-sm"
+          style="max-height: 370px; object-fit: cover;"
+        />
+      </div>
+
+      <!-- Form (Left on large screens, below image on small) -->
+      <div class="col-12 col-lg-6 order-2 order-lg-1">
+        <h2 class="mb-4 text-center text-lg-start" style="font-family: var(--font-heading); font-size: 2rem; color: var(--true-blue);">
+          Enter Your Details
+        </h2>
+        <form id="userForm" class="p-3">
+          <div class="mb-4">
+            <label for="userName" class="form-label">Full Name</label>
+            <input type="text" id="userName" class="form-control smooth-input" placeholder="Enter your name" required />
+          </div>
+          <div class="mb-4">
+            <label for="userEmail" class="form-label">Email Address</label>
+            <input type="email" id="userEmail" class="form-control smooth-input" placeholder="Enter your email" required />
+          </div>
+          <button type="submit" class="btn btn-primary px-4 py-2">Save Info</button>
+        </form>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ✅ OTP Verification Modal -->
+<div class="modal fade" id="otpModal" tabindex="-1" aria-labelledby="otpModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content p-4">
+      <div class="modal-header border-0">
+        <h5 class="modal-title text-primary" id="otpModalLabel">
+          <i class="fa-solid fa-shield-halved me-2"></i> Email Verification
+        </h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+
+      <div class="modal-body">
+        <p class="mb-3">We've sent a 6-digit OTP to your email. Please enter it below:</p>
+        <input
+          type="text"
+          class="form-control text-center fw-bold fs-4"
+          maxlength="6"
+          id="otpInput"
+          placeholder="------"
+          style="letter-spacing: 12px;"
+        />
+        <div id="otpError" class="text-danger mt-2 d-none">❌ Invalid OTP. Try again.</div>
+      </div>
+
+      <div class="modal-footer border-0 justify-content-between">
+        <button class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancel</button>
+        <button class="btn btn-primary" id="verifyOtpBtn">
+          <i class="fa-solid fa-check-circle me-1"></i> Verify
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<section id="note-details-section" class="py-5">
+  <div class="container-fluid px-4 px-md-5">
+
+    <!-- Section Title -->
+    <!-- Section Heading: Details of Notes -->
+<div class="text-center mb-5">
+  <h2 class="fw-bold" style="font-size: 2.4rem; color: var(--true-blue); font-family: 'Poppins', sans-serif;">
+    <i class="fa-solid fa-book-open-reader me-2 text-primary"></i>
+    Details of Notes
+  </h2>
+  <div style="width: 100px; height: 4px; background-color: #0466c8; margin: 12px auto 0; border-radius: 6px;"></div>
+</div>
+
+
+
+    <!-- Block 1 (Java Notes) -->
+<div class="note-flex-block first-note-block" style="background-color: #5da5b8;">
+  <div class="note-image-wrapper">
+    <img src="assets/java.png" alt="Java Notes" class="note-image" />
+  </div>
+  <div class="note-info">
+    <h4 class="display-6">DSA Notes</h4>
+    <p class="lead">
+      <i class="fa-solid fa-code me-2"></i>
+      Complete guide on Java DSA with solved examples and placement-focused content.
+    </p>
+    <p><i class="fa-solid fa-user me-2"></i> Affu Noty</p>
+    <p><i class="fa-regular fa-calendar-days me-2"></i> Published: May 2024</p>
+    <div class="note-price">
+  
+      <button class="btn btn-light preview-btn" data-pdf="notes/java-preview.pdf"><i class="fa-solid fa-eye"></i> Preview</button>
+    </div>
+  </div>
+</div>
+
+
+
+<!-- Block 2 (Reversed - CSS Notes) -->
+<div class="note-flex-block second-note-block" style="background-color: #6a8eae;">
+  <!-- Text content -->
+  <div class="note-info">
+    <h4 class="display-6">CSS3 - Cascading Style Sheet</h4>
+    <p class="lead">
+      <i class="fa-solid fa-palette me-2"></i>
+      Structured CSS notes covering layout, animation, and flexbox patterns.
+    </p>
+    <p><i class="fa-solid fa-user me-2"></i> A. Developer</p>
+    <p><i class="fa-regular fa-calendar-days me-2"></i> Published: June 2024</p>
+    <div class="note-price">
+      <button class="btn btn-light preview-btn" data-pdf="notes/css-preview.pdf"><i class="fa-solid fa-eye"></i> Preview</button>
+    </div>
+  </div>
+
+  <!-- Image on the right -->
+  <div class="note-image-wrapper">
+    <img src="assets/css.png" alt="CSS Notes" class="note-image" />
+  </div>
+</div>
+
+
+
+
+   <!-- Block 3 (HTML Notes) -->
+<div class="note-flex-block third-note-block" style="background-color: #858ae3;">
+  <div class="note-image-wrapper">
+    <img src="assets/html.png" alt="HTML Notes" class="note-image" />
+  </div>
+  <div class="note-info">
+    <h4 class="display-6">HTML - Text Markup Language</h4>
+    <p class="lead">
+      <i class="fa-solid fa-code me-2"></i>
+      Beginner-friendly HTML notes covering structure, forms, and semantic tags.
+    </p>
+    <p><i class="fa-solid fa-user me-2"></i> Web Starter</p>
+    <p><i class="fa-regular fa-calendar-days me-2"></i> Published: March 2024</p>
+    <div class="note-price">
+      <button class="btn btn-light preview-btn" data-pdf="notes/html-preview.pdf"><i class="fa-solid fa-eye"></i> Preview</button>
+    </div>
+  </div>
+</div>
+
+
+    <!-- Anchor Link -->
+    <div class="text-center mt-5">
+      <a href="#more-notes" class="more-notes-link">
+        👋 Click Here for More Notes
+      </a>
+    </div>
+
+  </div>
+</section>
+<!-- ========== Notes Preview Carousel (Updated) ========== -->
+<section id="notes-carousel-custom" class="py-5 bg-light" style="padding-top: 78px; padding-bottom: 78px;">
+  <div class="container text-center">
+    <h2 class="text-center mb-2 fw-bold" style="font-size: 2.2rem; color: var(--true-blue); font-family: 'Poppins', sans-serif;">
+      <i class="fa-solid fa-magnifying-glass-chart me-2 text-primary"></i>
+      Browse & Preview Notes
+    </h2>
+    <div class="text-center mb-5">
+      <div style="width: 100px; height: 4px; background-color: #0466c8; margin: 0 auto; border-radius: 5px;"></div>
+    </div>
+
+    <div class="position-relative">
+      <!-- Left Arrow -->
+      <div class="swiper-button-prev" style="left: -20px;"></div>
+
+      <!-- Swiper Container -->
+      <div class="swiper customSwiper">
+        <div class="swiper-wrapper">
+
+          <!-- Slide 1 - Java -->
+          <div class="swiper-slide custom-card">
+            <img src="assets/java.png" alt="Java" class="custom-img">
+            <div class="custom-content">
+              <h5>Java DSA</h5>
+              <p>Complete Java DSA with solved examples & placements focus.</p>
+              <button class="btn btn-primary mt-3 buy-btn" data-note="java-dsa.pdf" data-price="199">Buy Now</button>
+              <div class="pdf-access mt-3 d-none animate__animated animate__fadeIn" id="access-java-dsa">
+                <a class="btn btn-success download-pdf me-2 shadow-sm" href="notes/java-notes.pdf" download>
+                  <i class="fa-solid fa-download me-1"></i> Download PDF
+                </a>
+                <a class="view-link" href="notes/java-preview.pdf" target="_blank">
+                  <i class="fa-solid fa-eye me-1"></i> Preview PDF
+                </a>
+              </div>
+            </div>
+          </div>
+
+          <!-- Slide 2 - CSS -->
+          <div class="swiper-slide custom-card">
+            <img src="assets/css.png" alt="CSS" class="custom-img">
+            <div class="custom-content">
+              <h5>CSS3 Mastery</h5>
+              <p>Master Flexbox, Grid, Animations & Styling Patterns.</p>
+              <button class="btn btn-primary mt-3 buy-btn" data-note="css-mastery.pdf" data-price="149">Buy Now</button>
+              <div class="pdf-access mt-3 d-none animate__animated animate__fadeIn" id="access-css-mastery">
+                <a class="btn btn-success download-pdf me-2 shadow-sm" href="notes/CSS5 notes.pdf" download>
+                  <i class="fa-solid fa-download me-1"></i> Download PDF
+                </a>
+                <a class="view-link" href="notes/css-preview.pdf" target="_blank">
+                  <i class="fa-solid fa-eye me-1"></i> Preview PDF
+                </a>
+              </div>
+            </div>
+          </div>
+
+          <!-- Slide 3 - HTML -->
+          <div class="swiper-slide custom-card">
+            <img src="assets/html.png" alt="HTML" class="custom-img">
+            <div class="custom-content">
+              <h5>HTML5 Essentials</h5>
+              <p>Semantic structure, forms, media and more.</p>
+              <button class="btn btn-primary mt-3 buy-btn" data-note="html-essentials.pdf" data-price="149">Buy Now</button>
+              <div class="pdf-access mt-3 d-none animate__animated animate__fadeIn" id="access-html-essentials">
+                <a class="btn btn-success download-pdf me-2 shadow-sm" href="notes/HTML notes.pdf" download>
+                  <i class="fa-solid fa-download me-1"></i> Download PDF
+                </a>
+                <a class="view-link" href="notes/html-preview.pdf" target="_blank">
+                  <i class="fa-solid fa-eye me-1"></i> Preview PDF
+                </a>
+              </div>
+            </div>
+          </div>
+
+          <!-- Slide 4 - Coming Soon -->
+          <div class="swiper-slide custom-card">
+            <img src="assets/js.png" class="custom-img" alt="Coming Soon">
+            <div class="custom-content">
+              <h5>Coming Soon</h5>
+              <p>JavaScript notes will be available shortly.</p>
+              <button class="btn btn-primary mt-3" disabled>Coming Soon</button>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- Right Arrow -->
+      <div class="swiper-button-next" style="right: -20px;"></div>
+
+      <!-- Bottom Row: Price (left) and Preview Select (right) -->
+      <div class="d-flex justify-content-between align-items-center mt-4 flex-wrap px-3">
+        <!-- Left: Price -->
+        <div class="fw-bold text-primary fs-5 d-flex align-items-center">
+          <i class="fa-solid fa-tags me-2"></i> FREE
+        </div>
+
+        <!-- Right: Preview Dropdown -->
+        <div class="d-flex align-items-center">
+          <label for="notePreview" class="form-label fw-bold me-2 mb-0 text-muted">
+            <i class="fa-solid fa-eye text-primary me-1"></i> Preview:
+          </label>
+          <select id="notePreview" class="form-select animated-select w-auto shadow-sm">
+            <option selected disabled>Select Note</option>
+            <option value="notes/java-preview.pdf">📘 Java | DSA Notes</option>
+            <option value="notes/css-preview.pdf">🎨 CSS3 Notes</option>
+            <option value="notes/html-preview.pdf">🌐 HTML5 Notes</option>
+            <option disabled>🕒 JavaScript (Coming Soon)</option>
+          </select>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="slide-divider mx-auto my-4" style="margin-left: 50px;margin-right: 50px;"></div>
+
+<!-- ========== About Us Section ========== -->
+<section id="about-us" class="py-5 bg-light">
+  <div class="container px-4 px-md-5">
+
+   <!-- ========== About Us Section ========== -->
+<section id="about-us" class="py-5 bg-light">
+  <div class="container px-4 px-md-5">
+
+    <!-- Section Heading -->
+    <div class="text-center mb-5">
+      <h2 class="fw-bold" style="font-size: 2.4rem; color: var(--true-blue); font-family: 'Poppins', sans-serif;">
+        <i class="fa-solid fa-circle-info me-2 text-primary"></i> About Us
+      </h2>
+      <div style="width: 100px; height: 4px; background-color: #0466c8; margin: 12px auto 0; border-radius: 6px;"></div>
+    </div>
+
+    <!-- Intro Row with Image -->
+    <div class="row align-items-center mb-5">
+      <div class="col-md-6">
+        <img src="assets/about.png" alt="About QoNote" class="img-fluid rounded shadow-sm" />
+      </div>
+      <div class="col-md-6">
+        <h4 class="mb-3"><i class="fa-solid fa-bullseye text-primary me-2"></i> Who We Are</h4>
+       <p class="text-muted ps-4 about-highlight">
+  <strong>QoNote</strong> is a modern digital platform built for students, developers, and self-learners who crave 
+  <strong>precise, structured, and exam-ready notes</strong>. Whether you're preparing for university exams, coding interviews,
+  or just want to master programming fundamentals — QoNote simplifies your journey with downloadable PDFs, enriched with
+  <strong>real-world examples and visual clarity</strong>.
+</p>
+
+      </div>
+    </div>
+
+    <!-- Our Vision -->
+    <div class="mb-5">
+      <h4><i class="fa-solid fa-rocket text-primary me-2"></i> Our Vision</h4>
+      <blockquote class="blockquote text-muted ps-3 border-start border-3" style="border-color: #0466c8;">
+        <em>“To make high-quality technical education accessible, affordable, and organized for every aspiring tech mind.”</em>
+      </blockquote>
+      <p class="text-muted mt-3">
+        We believe students deserve better than scattered YouTube tutorials. QoNote is here to 
+        <strong>organize chaos into clarity</strong> — delivering notes that are short, smart, and effective.
+      </p>
+    </div>
+
+    <!-- What Makes Us Different -->
+    <div class="mb-5">
+      <h4><i class="fa-solid fa-layer-group text-primary me-2"></i> What Makes Us Different?</h4>
+      <ul class="list-unstyled mt-3">
+        <li class="mb-3 d-flex align-items-start">
+          <i class="fa-solid fa-user-gear text-success me-3 fs-5 animate__animated animate__fadeInLeft"></i>
+          <div><strong>Built by Developers, for Developers</strong><br>
+            Every note is created by programmers who’ve cracked placements, internships, and real-world projects.</div>
+        </li>
+        <li class="mb-3 d-flex align-items-start">
+          <i class="fa-solid fa-book-open text-info me-3 fs-5 animate__animated animate__fadeInLeft animate__delay-1s"></i>
+          <div><strong>Concise + High-Impact PDFs</strong><br>
+            No filler — just essential theory, diagrams, and revision patterns that help you learn faster.</div>
+        </li>
+        <li class="mb-3 d-flex align-items-start">
+          <i class="fa-solid fa-puzzle-piece text-warning me-3 fs-5 animate__animated animate__fadeInLeft animate__delay-2s"></i>
+          <div><strong>Topic-Specific & Downloadable</strong><br>
+            Choose exactly what you need — DSA in Java? CSS animations? Modular PDFs for focused learning.</div>
+        </li>
+        <li class="mb-3 d-flex align-items-start">
+          <i class="fa-solid fa-credit-card text-danger me-3 fs-5 animate__animated animate__fadeInLeft animate__delay-3s"></i>
+          <div><strong>Smart Purchase System</strong><br>
+            Preview before buying. Unlock full notes with one-click Razorpay payment. Simple, secure, and instant.</div>
+        </li>
+        <li class="mb-3 d-flex align-items-start">
+          <i class="fa-solid fa-lock-open text-secondary me-3 fs-5 animate__animated animate__fadeInLeft animate__delay-4s"></i>
+          <div><strong>One-Time Purchase = Lifetime Access</strong><br>
+            No subscriptions. No logins. Buy once. Own forever.</div>
+        </li>
+      </ul>
+    </div>
+
+    <!-- Subjects Table -->
+    <div class="mb-4">
+      <h4><i class="fa-solid fa-brain text-primary me-2"></i> What You’ll Find on QoNote</h4>
+      <!-- ========== Animated Modern Table ========== -->
+<div class="table-responsive mt-4">
+ <table class="table table-hover shadow-sm align-middle text-center modern-table animate__animated animate__fadeInUp border border-2 border-primary">
+
+    <thead class="bg-gradient text-white" style="background: linear-gradient(90deg, #0466c8, #0353a4);">
+      <tr>
+        <th scope="col" class="py-3 fs-5"><i class="fa-solid fa-book me-2"></i>Subject</th>
+        <th scope="col" class="py-3 fs-5"><i class="fa-solid fa-list-check me-2"></i>Coverage</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr class="table-row-animate">
+        <td><i class="fa-solid fa-laptop-code text-success me-2"></i><strong>Java + DSA</strong></td>
+        <td>Stacks, Queues, Trees, Linked Lists, Recursion</td>
+      </tr>
+      <tr class="table-row-animate">
+        <td><i class="fa-solid fa-palette text-info me-2"></i><strong>CSS</strong></td>
+        <td>Flexbox, Grid, Responsive UI, Animations</td>
+      </tr>
+      <tr class="table-row-animate">
+        <td><i class="fa-solid fa-code text-warning me-2"></i><strong>HTML</strong></td>
+        <td>Semantic tags, forms, structure, media</td>
+      </tr>
+      <tr class="table-row-animate">
+        <td>
+          <i class="fa-solid fa-hourglass-half text-secondary me-2"></i>
+          <strong>JavaScript</strong>
+          <span class="badge bg-warning text-dark ms-2">Coming Soon</span>
+        </td>
+        <td>ES6, DOM, API calls, logic building</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+    </div>
+
+  </div>
+</section>
+
+<div class="slide-divider mx-auto my-4"></div>
+
+   <!-- ===== Meet the Creator Section ===== -->
+<section id="meet-creator" class="py-5 bg-white">
+  <div class="container px-4 px-md-5">
+
+    <!-- Section Heading -->
+    <div class="text-center mb-5">
+      <h2 class="fw-bold" style="font-size: 2.3rem; color: var(--true-blue); font-family: 'Poppins', sans-serif;">
+        <i class="fa-solid fa-user-pen me-2 text-primary"></i> Meet the Creator
+      </h2>
+      <div style="width: 100px; height: 4px; background-color: #0466c8; margin: 12px auto 0; border-radius: 6px;"></div>
+    </div>
+
+    <!-- Creator Bio -->
+    <div class="row align-items-center">
+      <!-- Creator Image -->
+      <div class="col-md-4 text-center mb-4 mb-md-0">
+  <img 
+    src="assets/afnan.png" 
+    alt="Afnan Pasha" 
+    class="img-fluid rounded shadow" 
+    style="width: 100%; max-width: 320px; height: 420px; object-fit: cover;"
+  >
+</div>
+
+
+      <!-- Creator Content -->
+      <div class="col-md-8">
+        <h4 class="fw-bold mb-2" style="color: var(--true-blue); font-family: 'Poppins', sans-serif;">
+          👋 Afnan Pasha
+        </h4>
+        <p class="mb-2">
+          <i class="fa-solid fa-laptop-code text-primary me-2"></i>
+          <strong>Full Stack Developer</strong> |
+          <i class="fa-solid fa-graduation-cap text-primary ms-3 me-2"></i>
+          <strong>CS Undergrad</strong> |
+          <i class="fa-solid fa-code text-primary ms-3 me-2"></i>
+          <strong>Java & DSA Enthusiast</strong>
+        </p>
+
+        <p class="text-muted" style="font-size: 1.05rem;">
+          From my earliest days in computer science, I’ve had one unwavering habit: <strong>note-taking</strong>. Whether it was academic courses, coding projects, or even journal entries — I always made it a point to document concepts clearly, visually, and creatively.
+        </p>
+
+        <p class="text-muted" style="font-size: 1.05rem;">
+          Over time, I realized that my notes became my greatest resource — often helping me understand topics better than textbooks, tutorials, or even AI tools. They weren’t just pages of theory — they were filled with <strong>color-coded concepts, hand-drawn flowcharts, visual diagrams</strong>, and real-world explanations.
+        </p>
+
+        <p class="text-muted" style="font-size: 1.05rem;">
+          That’s what made learning fun for me — and now, I want to pass that clarity and confidence on to you. <strong>QoNote</strong> was born from that mindset — to offer learners notes that don’t just explain, but actually <strong>teach</strong>.
+        </p>
+
+        <p class="text-muted" style="font-size: 1.05rem;">
+          If you've truly gone through my notes and practiced the programs, and you're still confused — my friend, you don't need more notes, you need <strong>more time and less Instagram</strong>. 😉
+        </p>
+
+        <!-- Quote -->
+        <blockquote class="blockquote text-muted mt-4 ps-3 border-start border-3" style="border-color: #0466c8;">
+          <em>“The will to win means nothing without the will to prepare.”</em>
+          <footer class="blockquote-footer mt-1 no-bg-footer">
+  Juma Ikangaa
+</footer>
+
+
+        </blockquote>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+
+  </div>
+</section>
+
+<section id="footer">
+<!-- ========== Footer Section ========== -->
+<footer class="footer-section text-light py-5">
+  <div class="container">
+    <div class="row text-center text-md-start justify-content-between align-items-start gy-4">
+
+      <!-- Column 1: Partners -->
+      <div class="col-md-4 animate__animated animate__fadeInLeft">
+        <h5 class="fw-bold mb-3 text-info fs-5">
+          <i class="fa-solid fa-handshake-angle me-2"></i>Our Partners
+        </h5>
+        <ul class="list-unstyled fs-6">
+          <li class="mb-3 footer-link">
+            <i class="fa-solid fa-money-check-dollar me-2 text-success"></i> Razorpay – Trusted Payment Gateway
+          </li>
+          <li class="mb-3 footer-link">
+            <i class="fa-solid fa-server me-2 text-warning"></i> GitHub Pages – Our Hosting Backbone
+          </li>
+          <li class="mb-3 footer-link">
+            <i class="fa-brands fa-github me-2 text-light"></i> GitHub – Code, Versioning & Deployment
+          </li>
+        </ul>
+      </div>
+
+      <!-- Column 2: Contact + Info -->
+      <div class="col-md-4 animate__animated animate__fadeInUp">
+        <h5 class="fw-bold mb-3 text-info fs-5">
+          <i class="fa-solid fa-address-book me-2"></i>Contact & Legal
+        </h5>
+        <ul class="list-unstyled fs-6">
+          <li class="mb-3 footer-link">
+            <i class="fa-solid fa-envelope me-2 text-warning"></i> afnanmafnanm79@gmail.com
+          </li>
+          <li class="mb-3 footer-link">
+            <i class="fa-solid fa-location-dot me-2 text-danger"></i> RT Nagar, Bangalore, India
+          </li>
+          <li class="mb-3 footer-link">
+            <i class="fa-solid fa-lock me-2 text-primary"></i> 100% Secure Payments via Razorpay
+          </li>
+          <li class="mt-4 small" style="color: #d1d1d1;">
+  <i class="fa-regular fa-copyright me-1"></i> 2025 QoNote. All rights reserved.
+</li>
+
+        </ul>
+      </div>
+
+      <!-- Column 3: Socials -->
+      <div class="col-md-3 animate__animated animate__fadeInRight">
+        <h5 class="fw-bold mb-3 text-info fs-5">
+          <i class="fa-solid fa-share-nodes me-2"></i>Follow Us
+        </h5>
+        <p class="fs-6  mb-3">Stay connected and join our learning community:</p>
+        <div class="d-flex justify-content-center justify-content-md-start gap-4">
+          <a href="https://github.com/affu-79" target="_blank" class="social-icon" aria-label="GitHub">
+            <i class="fa-brands fa-github"></i>
+          </a>
+          <a href="https://www.instagram.com/afnan.pasha_79?igsh=aWtwcDQ3ZGE4czdi" target="_blank" class="social-icon" aria-label="Instagram">
+            <i class="fa-brands fa-instagram"></i>
+          </a>
+          <a href="https://www.linkedin.com/in/afnan-pasha-69736324b"  target="_blank" class="social-icon" aria-label="LinkedIn">
+            <i class="fa-brands fa-linkedin"></i>
+          </a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</footer>
+
+
+
+</section>
+<script src="app.js"></script>
+<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+<!-- Swiper CSS -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.css" />
+
+<!-- Swiper JS -->
+<script src="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.js"></script>
+
+<script>
+  const swiper = new Swiper(".customSwiper", {
+  centeredSlides: true,         // ✅ center the current slide
+  loop: true,                   // ✅ infinite loop
+  initialSlide: 0,              // ✅ Java card first
+  spaceBetween: -60,            // ✅ overlap effect (make sides visible but behind)
+  slidesPerView: 1.5,           // default (mobile)
+
+  breakpoints: {
+    0: {
+      slidesPerView: 1.2,
+      spaceBetween: 10
+    },
+    576: {
+      slidesPerView: 1.5,
+      spaceBetween: 10
+    },
+    768: {
+      slidesPerView: 2.2,
+      spaceBetween: 20
+    },
+    992: {
+      slidesPerView: 3,
+      spaceBetween: -60             // ✅ show center fully, others behind
+    }
+  },
+
+  navigation: {
+    nextEl: ".swiper-button-next",
+    prevEl: ".swiper-button-prev"
+  }
+});
+
+// Example JS code to handle preview buttons
+document.querySelectorAll('.preview-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const pdfPath = btn.getAttribute('data-pdf');
+    if (pdfPath) {
+      window.open(pdfPath, '_blank'); // Opens the PDF in a new tab
+    } else {
+      alert("PDF not found!");
+    }
+  });
+});
+
+
+</script>
+
+
+<script>
+  document.getElementById("notePreview").addEventListener("change", function () {
+    const sectionId = this.value;
+    if (sectionId) {
+      document.querySelector(sectionId).scrollIntoView({ behavior: "smooth" });
+    }
+  });
+</script>
+
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+  const form = document.getElementById("userForm");
+  const emailInput = document.getElementById("userEmail");
+  const nameInput = document.getElementById("userName");
+  const otpModal = document.getElementById("otpModal");
+  const otpError = document.getElementById("otpError");
+  const verifyOtpBtn = document.getElementById("verifyOtpBtn");
+
+  let otpAlreadySent = false;
+  let userEmail = "";
+  let userName = "";
+  const saveBtn = form?.querySelector("button[type='submit']");
+  const unlockedNotes = JSON.parse(localStorage.getItem("qonote_unlocked") || "[]");
+  const storedEmail = localStorage.getItem("qonote_email");
+
+  // === 1. Save Info and Send OTP ===
+  if (form) {
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const name = nameInput.value.trim();
+      const email = emailInput.value.trim();
+      if (!name || !email) return alert("Please fill in all fields.");
+
+      if (otpAlreadySent) {
+        otpModal.classList.add("show");
+        otpModal.style.display = "block";
+        return;
+      }
+
+      saveBtn.disabled = true;
+      saveBtn.innerHTML = `<span class="spinner-border spinner-border-sm me-2"></span> Sending...`;
+
+      try {
+        const res = await fetch("/send-otp", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ email })
+        });
+
+        const data = await res.json();
+        if (data.success) {
+          otpAlreadySent = true;
+          userEmail = email;
+          userName = name;
+          otpModal.classList.add("show");
+          otpModal.style.display = "block";
+        } else {
+          alert("❌ Failed to send OTP.");
+        }
+      } catch (err) {
+        console.error("OTP error:", err);
+        alert("❌ Error sending OTP.");
+      } finally {
+        saveBtn.disabled = false;
+        saveBtn.innerHTML = "Save Info";
+      }
+    });
+  }
+
+  // === 2. Verify OTP ===
+  verifyOtpBtn?.addEventListener("click", async () => {
+    const otp = document.getElementById("otpInput").value.trim();
+    const email = emailInput.value.trim();
+
+    if (!otp || !email) return alert("Please enter OTP and email.");
+
+    try {
+      const res = await fetch("/verify-otp", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, otp })
+      });
+
+      const data = await res.json();
+      if (data.success) {
+        otpError.classList.add("d-none");
+        otpModal.classList.remove("show");
+        otpModal.style.display = "none";
+        alert("✅ OTP Verified!");
+        localStorage.setItem("qonote_email", email);
+      } else {
+        otpError.classList.remove("d-none");
+      }
+    } catch (err) {
+      console.error("OTP verification error:", err);
+      alert("❌ Error verifying OTP.");
+    }
+  });
+
+  // === 3. Restore Unlocked Notes if email was verified earlier ===
+  if (storedEmail) {
+    fetch("/verify-entered-email", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ enteredEmail: storedEmail })
+    })
+    .then(res => res.json())
+    .then(data => {
+      if (data.success && data.verified) {
+        const updated = [...new Set([...unlockedNotes, "java-dsa.pdf", "css-mastery.pdf", "html-essentials.pdf"])];
+        updated.forEach(noteName => {
+          const key = noteName.replace(".pdf", "");
+          document.querySelector(`.buy-btn[data-note="${noteName}"]`)?.classList.add("d-none");
+          document.getElementById(`access-${key}`)?.classList.remove("d-none");
+        });
+        localStorage.setItem("qonote_unlocked", JSON.stringify(updated));
+      }
+    });
+  }
+
+  // === 4. Buy Now → Direct Unlock (No Razorpay)
+  document.querySelectorAll(".buy-btn").forEach(btn => {
+    btn.addEventListener("click", () => {
+      const noteName = btn.dataset.note;
+      const storedEmail = localStorage.getItem("qonote_email");
+      if (!storedEmail) return alert("❌ Please verify your email first.");
+
+      const key = noteName.replace(".pdf", "");
+      btn.classList.add("d-none");
+      document.getElementById(`access-${key}`)?.classList.remove("d-none");
+
+      const updated = [...new Set([...unlockedNotes, noteName])];
+      localStorage.setItem("qonote_unlocked", JSON.stringify(updated));
+
+      alert("✅ Note unlocked successfully!");
+    });
+  });
+
+  // === 5. Alert on Download
+  document.querySelectorAll(".download-pdf").forEach(btn => {
+    btn.addEventListener("click", () => {
+      alert("✅ You have successfully downloaded the PDF.");
+    });
+  });
+});
+</script>
+
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+  const notePreviewSelect = document.getElementById("notePreview");
+
+  notePreviewSelect?.addEventListener("change", function () {
+    const selectedUrl = this.value;
+    if (selectedUrl) {
+      window.open(selectedUrl, "_blank");
+      this.selectedIndex = 0; // reset selection
+    }
+  });
+});
+</script>
+<script>
+  document.querySelectorAll(".preview-btn").forEach(btn => {
+    btn.addEventListener("click", () => {
+      const pdf = btn.dataset.pdf;
+      if (pdf) window.open(pdf, "_blank");
+    });
+  });
+</script>
+
+
+</body>
+</html>
